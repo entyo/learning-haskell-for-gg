@@ -45,3 +45,26 @@ qs (x : xs) =
       larger    = [ a | a <- xs, a > x ]
   in  qs smallOrEq ++ [x] ++ qs larger
 
+chain :: Integer -> [Integer]
+chain 1 = [1]
+chain n | even n = n : chain (n `div` 2)
+        | odd n  = n : chain (n * 3 + 1)
+
+nChainsItHasMoreThan15Elem :: Int
+nChainsItHasMoreThan15Elem = length (filter isLong (map chain [1 .. 100]))
+  where isLong xs = length xs > 15
+
+nChainsItHasMoreThan15ElemWithLambda :: Int
+nChainsItHasMoreThan15ElemWithLambda =
+  length (filter (\xs -> length xs > 15) (map chain [1 .. 100]))
+
+-- Faster than mapWithFoldl, cuz '++' is slower than ':'
+mapWithFoldr :: (a -> b) -> [a] -> [b]
+mapWithFoldr f xs = foldr (\x acc -> f x : acc) [] xs
+
+mapWithFoldl :: (a -> b) -> [a] -> [b]
+mapWithFoldl f xs = foldl (\acc x -> acc ++ [f x]) [] xs
+
+maximumWithFoldl1 :: (Ord a) => [a] -> a
+maximumWithFoldl1 = foldl1 max
+
