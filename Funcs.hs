@@ -68,3 +68,12 @@ mapWithFoldl f xs = foldl (\acc x -> acc ++ [f x]) [] xs
 maximumWithFoldl1 :: (Ord a) => [a] -> a
 maximumWithFoldl1 = foldl1 max
 
+-- Record syntax
+data Person = Person { 
+  firstName :: String,
+  lastName :: String,
+  age :: Int,
+  height :: Float,
+  phoneNumber :: String,
+  flavor :: String
+} deriving (Show)
